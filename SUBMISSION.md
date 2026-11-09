@@ -26,9 +26,9 @@ PaperSignal reports publication metadata only. It does not judge scientific qual
 
 ## Reviewer walkthrough
 
-1. Open the live app and connect to the deployed registry.
+1. Open the live app; its shared contract history loads automatically.
 2. Use **Load verified example** to fill the DOI and official PubMed page.
-3. Connect the contract and wallet on GenLayer Studionet.
+3. Connect a wallet on GenLayer Studionet.
 4. Submit **Check with validators** and inspect the finalized transaction.
 5. Open the saved record’s evidence panel and follow both official source links.
 

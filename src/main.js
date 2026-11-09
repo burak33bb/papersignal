@@ -1,7 +1,7 @@
 import { createClient } from "genlayer-js";
 import { studionet } from "genlayer-js/chains";
 import { TransactionStatus, ExecutionResult } from "genlayer-js/types";
-import { CONTRACT_KEY, EXAMPLE_DOI, EXAMPLE_PUBMED, EXPLORER } from "./config.js";
+import { CONTRACT_ADDRESS, EXAMPLE_DOI, EXAMPLE_PUBMED, EXPLORER } from "./config.js";
 import { connect, shortAddress } from "./wallet.js";
 import "./styles.css";
 
@@ -9,22 +9,21 @@ const $ = (selector) => document.querySelector(selector);
 const reader = createClient({ chain: studionet });
 let writer = null;
 let account = "";
-let contractAddress = localStorage.getItem(CONTRACT_KEY) || "";
+const contractAddress = CONTRACT_ADDRESS;
 let busy = false;
 let toastTimer;
 
-$("#contract-address").value = contractAddress;
 $("#connect").addEventListener("click", connectWallet);
-$("#save-contract").addEventListener("click", saveContract);
 $("#review-form").addEventListener("submit", reviewPublication);
-$("#refresh").addEventListener("click", () => loadRecords());
+$("#refresh").addEventListener("click", () => loadRecords("finalized", true));
 $("#example").addEventListener("click", loadExample);
 if (window.ethereum) {
   window.ethereum.on?.("accountsChanged", (accounts) => setAccount(accounts[0] || ""));
   window.ethereum.on?.("chainChanged", () => location.reload());
   window.ethereum.request({ method: "eth_accounts" }).then((accounts) => setAccount(accounts[0] || "")).catch(() => {});
 }
-if (contractAddress) loadRecords();
+setStatus("Loading shared registry", "Reading PaperSignal's shared Studionet history. A wallet is only needed to submit a new check.", "pending");
+loadRecords();
 
 async function connectWallet() {
   if (!window.ethereum) return setStatus("Wallet not found", "Install or open a browser wallet to submit a consensus check.", "error");
@@ -41,15 +40,6 @@ function setAccount(address) {
   writer = address ? createClient({ chain: studionet, account: address, provider: window.ethereum }) : null;
   $("#connect").textContent = shortAddress(address);
   $("#connect").classList.toggle("connected", Boolean(address));
-}
-
-function saveContract() {
-  const value = $("#contract-address").value.trim();
-  if (!/^0x[a-fA-F0-9]{40}$/.test(value)) return notify("Enter a valid 42-character contract address.");
-  contractAddress = value;
-  localStorage.setItem(CONTRACT_KEY, value);
-  setStatus("Contract connected", `${shortAddress(value)} · ready to read and write`, "success");
-  loadRecords();
 }
 
 function loadExample(event) {
@@ -97,13 +87,13 @@ async function waitForOutcome(hash) {
     });
     assertSuccessful(accepted);
     setStatus("Consensus accepted", "Loading the saved record while finality completes.", "success");
-    await loadRecords("accepted");
+    await loadRecords("accepted", false);
     const finalized = await reader.waitForTransactionReceipt({
       hash, status: TransactionStatus.FINALIZED, interval: 3000, retries: 240, fullTransaction: false,
     });
     assertSuccessful(finalized);
     setStatus("Check finalized", "The consensus result is stored in the PaperSignal registry.", "success");
-    await loadRecords("finalized");
+    await loadRecords("finalized", false);
   } catch (error) {
     const message = readableError(error);
     if (message.includes("timed out waiting for transaction")) {
@@ -115,14 +105,18 @@ async function waitForOutcome(hash) {
   }
 }
 
-async function loadRecords(stateStatus = "finalized") {
+async function loadRecords(stateStatus = "finalized", announce = true) {
   if (!contractAddress) return;
   try {
     const countValue = await reader.readContract({ address: contractAddress, functionName: "get_record_count", args: [], stateStatus });
     const count = Number(countValue);
     if (!Number.isSafeInteger(count) || count < 0) throw new Error("The contract returned an invalid record count.");
     $("#record-count").textContent = String(count);
-    if (count === 0) return renderRecords([]);
+    if (count === 0) {
+      renderRecords([]);
+      if (announce) setStatus("Registry ready", "The shared PaperSignal registry is connected. No checks have been recorded yet.", "success");
+      return;
+    }
     const start = Math.max(1, count - 19);
     const rows = [];
     for (let id = count; id >= start; id -= 1) {
@@ -131,6 +125,7 @@ async function loadRecords(stateStatus = "finalized") {
       if (record && typeof record === "object") rows.push(record);
     }
     renderRecords(rows);
+    if (announce) setStatus("Registry ready", `${count} shared check${count === 1 ? "" : "s"} loaded from Studionet.`, "success");
   } catch (error) {
     setStatus("Could not read contract", `${readableError(error)} · check the address and network.`, "error");
   }

@@ -35,7 +35,7 @@ npm run build
 npm run dev
 ```
 
-Open the local Vite URL, connect a wallet configured for GenLayer Studionet, deploy `contracts/paper_signal_registry.py` in GenLayer Studio, paste its address into **Connect the deployed contract**, and use **Load verified example** to populate the example article. Then submit **Check with validators** and inspect the transaction and saved record.
+Open the local Vite URL. Deploy `contracts/paper_signal_registry.py` in GenLayer Studio, then set that address as `CONTRACT_ADDRESS` in `src/config.js`. The hosted app is already configured with its shared registry and loads its history automatically. Use **Load verified example**, connect a Studionet wallet, submit **Check with validators**, and inspect the transaction and saved record.
 
 The example is PubMed PMID 30485508, a retracted publication whose page links to the retraction notice and original DOI. Use it to demonstrate the distinction between a retraction notice and the original article's status.
 

@@ -35,9 +35,7 @@
             <div class="trust-note"><span class="shield">✓</span><span><b>Evidence stays attached</b><small>Short excerpts, source links, and each consensus result are saved in the contract.</small></span></div>
           </div>
 
-          <div class="status-panel" id="status-panel" aria-live="polite"><div class="status-icon">↗</div><div><b id="status-title">Connect a contract to begin</b><p id="status-message">Deploy the PaperSignal contract in GenLayer Studio, then paste its address below.</p></div><a id="tx-link" class="tx-link" href="#" target="_blank" rel="noreferrer" hidden>View transaction ↗</a></div>
-
-          <div class="contract-bar"><div><div class="eyebrow"><span class="eyebrow-line"></span> ONCHAIN REGISTRY</div><h3>Connect the deployed contract</h3></div><div class="contract-input"><input id="contract-address" placeholder="0x contract address" spellcheck="false" /><button id="save-contract" class="button button-outline">Connect</button></div></div>
+          <div class="status-panel" id="status-panel" aria-live="polite"><div class="status-icon">↗</div><div><b id="status-title">Loading shared registry</b><p id="status-message">Reading the shared Studionet history. A wallet is only needed to submit a new check.</p></div><a id="tx-link" class="tx-link" href="#" target="_blank" rel="noreferrer" hidden>View transaction ↗</a></div>
 
           <div class="section-heading records-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> SHARED RECORD</div><h2>Recent checks <span id="record-count" class="count">0</span></h2></div><button id="refresh" class="icon-button" aria-label="Refresh records">↻</button></div>
           <div id="records" class="records"><div class="empty-state"><div class="empty-glyph">∿</div><b>No checks recorded yet</b><p>Accepted consensus checks will appear here with their DOI, status, and source links.</p></div></div>
