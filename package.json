@@ -1,0 +1,16 @@
+{
+  "name": "papersignal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "check": "node --check src/main.js && node --check src/wallet.js"
+  },
+  "dependencies": {
+    "genlayer-js": "1.1.8",
+    "vite": "^7.1.7"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f7f4" />
+    <meta name="description" content="A source-linked research publication update monitor powered by GenLayer consensus." />
+    <title>PaperSignal — Research record monitor</title>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="PaperSignal home"><span class="brand-mark">P</span><span>papersignal</span></a>
+        <div class="top-actions"><span class="network"><i></i> GENLAYER STUDIONET</span><button class="button button-outline" id="connect">Connect wallet</button></div>
+      </header>
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-line"></span> RESEARCH RECORD MONITOR</div>
+            <h1>See when the<br /><em>record changes.</em></h1>
+            <p class="hero-lede">Track correction, concern, and retraction metadata for a paper. Independent GenLayer validators compare the official PubMed record with Crossref and leave a source-linked history.</p>
+            <div class="hero-pills"><span>01 &nbsp; Check a DOI</span><span>02 &nbsp; Compare official records</span><span>03 &nbsp; Keep the result onchain</span></div>
+          </div>
+          <div class="hero-art" aria-hidden="true"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="signal-card"><div class="signal-head"><span class="signal-dot"></span><span>RECORD SIGNAL</span><span class="signal-live">LIVE</span></div><div class="signal-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="signal-caption"><b>Sources agree</b><small>PubMed × Crossref</small></div></div><span class="art-label label-a">doi:10.1002/••••</span><span class="art-label label-b">UPDATE RELATION FOUND</span></div>
+        </section>
+
+        <section class="workspace">
+          <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> CONSENSUS CHECK</div><h2>Inspect a publication</h2></div><button class="text-button" id="example">Load verified example ↗</button></div>
+          <div class="check-card">
+            <form id="review-form" class="review-form">
+              <label>DOI <span>required</span><input id="doi" maxlength="180" placeholder="10.1002/jcb.28088" autocomplete="off" required /></label>
+              <label>OFFICIAL PUBMED ARTICLE URL <span>required</span><input id="pubmed-url" type="url" placeholder="https://pubmed.ncbi.nlm.nih.gov/30485508/" autocomplete="url" required /></label>
+              <div class="form-foot"><p>Crossref’s record URL is built from the DOI. PubMed must point to the original article, not only the update notice.</p><button id="review-submit" class="button button-dark" type="submit">Check with validators <span>→</span></button></div>
+            </form>
+            <div class="trust-note"><span class="shield">✓</span><span><b>Evidence stays attached</b><small>Short excerpts, source links, and each consensus result are saved in the contract.</small></span></div>
+          </div>
+
+          <div class="status-panel" id="status-panel" aria-live="polite"><div class="status-icon">↗</div><div><b id="status-title">Connect a contract to begin</b><p id="status-message">Deploy the PaperSignal contract in GenLayer Studio, then paste its address below.</p></div><a id="tx-link" class="tx-link" href="#" target="_blank" rel="noreferrer" hidden>View transaction ↗</a></div>
+
+          <div class="contract-bar"><div><div class="eyebrow"><span class="eyebrow-line"></span> ONCHAIN REGISTRY</div><h3>Connect the deployed contract</h3></div><div class="contract-input"><input id="contract-address" placeholder="0x contract address" spellcheck="false" /><button id="save-contract" class="button button-outline">Connect</button></div></div>
+
+          <div class="section-heading records-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> SHARED RECORD</div><h2>Recent checks <span id="record-count" class="count">0</span></h2></div><button id="refresh" class="icon-button" aria-label="Refresh records">↻</button></div>
+          <div id="records" class="records"><div class="empty-state"><div class="empty-glyph">∿</div><b>No checks recorded yet</b><p>Accepted consensus checks will appear here with their DOI, status, and source links.</p></div></div>
+        </section>
+      </main>
+      <footer><span>PaperSignal · A GenLayer application</span><span><a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/" target="_blank" rel="noreferrer">Crossref</a><a href="https://pubmed.ncbi.nlm.nih.gov/help/" target="_blank" rel="noreferrer">PubMed</a><a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html" target="_blank" rel="noreferrer">About this project</a></span></footer>
+      <aside class="disclaimer">PaperSignal reports publication metadata and linked notices. It does not assess scientific validity, clinical relevance, or whether a result should guide care.</aside>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
