@@ -18,8 +18,10 @@ PaperSignal reports publication metadata only. It does not judge scientific qual
 
 ## Deployment references
 
-- Add the public repository and live app URLs to the Project submission form.
-- Add the deployed GenLayer Studionet contract address and finalized example transaction hash after deployment.
+- Source repository: https://github.com/burak33bb/papersignal
+- Live app: https://burak33bb.github.io/papersignal/
+- Deployed GenLayer Studionet contract: add the address after deploying in Studio.
+- Finalized `review_publication` transaction: add its hash after the sample call.
 - Example input: DOI `10.1002/jcb.28088`; PubMed `https://pubmed.ncbi.nlm.nih.gov/30485508/`
 
 ## Reviewer walkthrough

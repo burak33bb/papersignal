@@ -1,5 +1,8 @@
 # PaperSignal
 
+**Live app:** https://burak33bb.github.io/papersignal/  
+**Source:** https://github.com/burak33bb/papersignal
+
 PaperSignal tracks publication-update metadata for a DOI. It asks GenLayer validators to inspect the official PubMed record and the DOI's Crossref work record, compare the two source views, and save a source-linked assessment in a shared Intelligent Contract registry.
 
 ## Why it exists
