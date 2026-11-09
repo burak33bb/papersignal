@@ -16,12 +16,10 @@ Each saved record includes the source classifications, related DOI when present,
 
 PaperSignal reports publication metadata only. It does not judge scientific quality or provide clinical advice. `NO_UPDATE_REPORTED` means only that the two checked records did not report an update; it is not proof that no notice exists elsewhere.
 
-## Evidence links to fill after deployment
+## Deployment references
 
-- Public source repository: **pending GitHub connection**
-- Live app: **pending publishing**
-- GenLayer Studionet contract: **paste deployed address**
-- Example `review_publication` transaction: **paste finalized transaction hash**
+- Add the public repository and live app URLs to the Project submission form.
+- Add the deployed GenLayer Studionet contract address and finalized example transaction hash after deployment.
 - Example input: DOI `10.1002/jcb.28088`; PubMed `https://pubmed.ncbi.nlm.nih.gov/30485508/`
 
 ## Reviewer walkthrough
