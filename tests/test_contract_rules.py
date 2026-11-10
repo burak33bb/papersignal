@@ -60,6 +60,13 @@ def test_rejects_non_pubmed_or_non_article_urls():
     assert not contract._is_pubmed_article_url("https://example.org/30485508")
 
 
+def test_builds_official_efetch_url_from_pubmed_article_url():
+    assert contract._pubmed_efetch_url("https://pubmed.ncbi.nlm.nih.gov/30485508/") == (
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+        "?db=pubmed&id=30485508&retmode=text&rettype=abstract"
+    )
+
+
 def test_retraction_requires_explicit_source_signal():
     valid = contract._validate_assessment(assessment(), "10.1002/jcb.28088")
     assert valid["status"] == contract.RETRACTION_REPORTED

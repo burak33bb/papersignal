@@ -83,13 +83,13 @@ async function reviewPublication(event) {
 async function waitForOutcome(hash) {
   try {
     const accepted = await reader.waitForTransactionReceipt({
-      hash, status: TransactionStatus.ACCEPTED, interval: 3000, retries: 180, fullTransaction: false,
+      hash, status: TransactionStatus.ACCEPTED, interval: 3000, retries: 180, fullTransaction: true,
     });
     assertSuccessful(accepted);
     setStatus("Consensus accepted", "Loading the saved record while finality completes.", "success");
     await loadRecords("accepted", false);
     const finalized = await reader.waitForTransactionReceipt({
-      hash, status: TransactionStatus.FINALIZED, interval: 3000, retries: 240, fullTransaction: false,
+      hash, status: TransactionStatus.FINALIZED, interval: 3000, retries: 240, fullTransaction: true,
     });
     assertSuccessful(finalized);
     setStatus("Check finalized", "The consensus result is stored in the PaperSignal registry.", "success");
@@ -180,6 +180,17 @@ function setBusy(value) {
 }
 
 function assertSuccessful(receipt) {
+  const failedLeader = receipt?.consensus_data?.leader_receipt?.find((item) =>
+    item.execution_result === "ERROR" || item.result?.status === "contract_error"
+  );
+  if (failedLeader) {
+    const details = failedLeader.genvm_result?.stderr || "";
+    if (details.includes("WEBPAGE_LOAD_FAILED") && details.includes("403")) {
+      throw new Error("PubMed blocked validator access (403). No record was saved. The contract must use the NCBI E-utilities update.");
+    }
+    const lastLine = details.trim().split("\n").filter(Boolean).at(-1);
+    throw new Error(lastLine || "The contract execution failed; no record was saved.");
+  }
   if (receipt?.txExecutionResultName && receipt.txExecutionResultName !== ExecutionResult.FINISHED_WITH_RETURN) {
     throw new Error(`Contract execution: ${receipt.txExecutionResultName}`);
   }

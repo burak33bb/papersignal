@@ -11,7 +11,7 @@ Correction, expression-of-concern, and retraction notices can be easy to miss wh
 
 ## How consensus is used
 
-`review_publication(doi, pubmed_url)` checks URL and DOI shape, fetches the PubMed article page and Crossref work record independently through GenLayer's nondeterministic web renderer, asks validators to classify the exact DOI and update relationship, then applies comparative equivalence to reconcile the source interpretation. Contract-side validation rejects mismatched identifiers, unsupported classifications, malformed evidence, and claims of no update when either source says otherwise. Accepted reports are appended to onchain history.
+`review_publication(doi, pubmed_url)` checks URL and DOI shape, derives the PMID from the official article URL, fetches the record from NCBI E-utilities and the Crossref work record independently through GenLayer's nondeterministic web renderer, asks validators to classify the exact DOI and update relationship, then applies comparative equivalence to reconcile the source interpretation. Using E-utilities avoids the PubMed HTML page's validator-facing 403 responses while preserving the official PubMed record as the cited source. Contract-side validation rejects mismatched identifiers, unsupported classifications, malformed evidence, and claims of no update when either source says otherwise. Successful reports are appended to onchain history.
 
 The contract keeps source URLs, short excerpts, source classifications, the related DOI when available, a concise explanation, and the resulting status. Read methods expose the full history, latest result, and latest result for one DOI. The browser app submits real contract calls through `genlayer-js` and reloads records from that same contract.
 
